@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snow Effect</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #333;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        #snow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Prevent interaction with snow */
+            z-index: 1;
+        }
+        .snowflake {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: url('https://web.archive.org/web/20161222042826im_/https://www.strato.de/_assets_de/image/global/campaign/snow1.png') no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            opacity: 0.8;
+            transform: translateZ(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="snow"></div>
+    <script>
+        const snowContainer = document.getElementById('snow');
+        const numSnowflakes = 100; // Number of snowflakes
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            snowflake.style.top = Math.random() * 100 + 'vh'; // Random vertical position
+            snowflake.style.width = Math.random() * 15 + 5 + 'px'; // Random size
+            snowflake.style.height = snowflake.style.width;
+            snowflake.style.backgroundImage = `url('https://web.archive.org/web/20161222042826im_/https://www.strato.de/_assets_de/image/global/campaign/snow${Math.floor(Math.random() * 3) + 1}.png')`;
+            snowContainer.appendChild(snowflake);
+        }
+
+        function moveSnowflakes(e) {
+            const x = e.clientX;
+            const y = e.clientY;
+            const snowflakes = document.querySelectorAll('.snowflake');
+
+            snowflakes.forEach(snowflake => {
+                const dx = (x - window.innerWidth / 2) / window.innerWidth;
+                const dy = (y - window.innerHeight / 2) / window.innerHeight;
+                snowflake.style.transform = `translate(${dx * 20}px, ${dy * 20}px)`;
+            });
+        }
+
+        // Create initial snowflakes
+        for (let i = 0; i < numSnowflakes; i++) {
+            createSnowflake();
+        }
+
+        // Move snowflakes on mouse move
+        document.addEventListener('mousemove', moveSnowflakes);
+    </script>
+</body>
+</html>
